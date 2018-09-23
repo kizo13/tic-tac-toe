@@ -1,5 +1,3 @@
-import apiActions from './api.actions';
-
 export const FormTypeKeys = {
   CHANGE_FORM: 'CHANGE_FORM',
   RESET_FORM: 'RESET_FORM',

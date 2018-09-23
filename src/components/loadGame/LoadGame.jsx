@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-import apiActions from '../../actions/api.actions';
+import appActions from '../../actions/app.actions';
 import formActions from '../../actions/form.actions';
 
 import LoadTableRow from './loadTableRow/LoadTableRow';
@@ -19,7 +19,7 @@ class LoadGame extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.props.api.boards.isLoading && <div className="loading">Fetching saved boards</div>}
+        {this.props.app.boards.isLoading && <div className="loading">Fetching saved boards</div>}
         <div className="load-game">Load games</div>
         <Link to="/">Back to Main screen</Link>
         <input type="text"
@@ -33,7 +33,7 @@ class LoadGame extends React.Component {
           autoCapitalize="off"
           autoComplete="off" />
         <button onClick={this.searchBoards.bind(this)}>Search</button>
-        {this.props.api.boards.data && (
+        {this.props.app.boards.data && (
           <React.Fragment>
             <table>
               <thead>
@@ -41,10 +41,11 @@ class LoadGame extends React.Component {
                   <th>id</th>
                   <th>name</th>
                   <th>size</th>
+                  <th>actions</th>
                 </tr>
               </thead>
               <tbody>
-                {this.props.api.boards.data.map(b => <LoadTableRow key={b.id} id={b.id} name={b.boardName} size={b.boardSize} />)}
+                {this.props.app.boards.data.map(b => <LoadTableRow key={b.id} id={b.id} name={b.boardName} size={b.boardSize} />)}
               </tbody>
             </table>
           </React.Fragment>
@@ -71,13 +72,13 @@ class LoadGame extends React.Component {
 
 
 const mapStateToProps = (state) => ({
-  api: state.api,
+  app: state.app,
   form: state.form
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBoards: (nameSegment) => dispatch(apiActions.getBoards(nameSegment)),
+    getBoards: (nameSegment) => dispatch(appActions.getBoards(nameSegment)),
     emitChange: change => dispatch(formActions.changeForm(change))
   };
 };

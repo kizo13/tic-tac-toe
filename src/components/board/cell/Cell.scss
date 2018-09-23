@@ -1,0 +1,32 @@
+.cell {
+  display: inline-block;
+  width: 33.333%;
+  padding-top: 33.333%;
+  border: 1px solid gray;
+  position: relative;
+  cursor: pointer;
+
+  &.cell-user::before,
+  &.cell-computer::before {
+    position: absolute;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    font-size: 20vw;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    line-height: 31vw;
+  }
+
+  &.cell-user::before {
+    content: "\f00d";
+  }
+  
+  &.cell-computer::before {
+    content: "\f10c";
+  }
+}
