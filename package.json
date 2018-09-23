@@ -1,0 +1,48 @@
+{
+  "name": "tic-tac-toe-app",
+  "version": "1.0.0",
+  "description": "Tic-tac-toe Test App",
+  "main": "server.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js --progress --colors",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "babel": {
+    "presets": [
+      "react"
+    ]
+  },
+  "devDependencies": {
+    "axios": "0.16.2",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-polyfill": "6.26.0",
+    "babel-preset-react": "6.24.1",
+    "classnames": "2.2.5",
+    "css-loader": "0.28.5",
+    "express": "4.15.4",
+    "extract-text-webpack-plugin": "3.0.2",
+    "file-loader": "0.11.2",
+    "history": "4.7.2",
+    "html-webpack-plugin": "2.30.1",
+    "node-sass": "4.8.3",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "react-redux": "5.0.6",
+    "react-router": "4.2.0",
+    "react-router-dom": "4.2.2",
+    "react-router-redux": "5.0.0-alpha.8",
+    "redux": "3.7.2",
+    "redux-observable": "0.16.0",
+    "redux-thunk": "2.2.0",
+    "replace-webpack-plugin": "0.1.2",
+    "rxjs": "5.5.8",
+    "sass-loader": "6.0.6",
+    "source-map-loader": "0.2.1",
+    "style-loader": "0.18.2",
+    "url-loader": "0.6.2",
+    "webpack": "3.5.5"
+  }
+}
