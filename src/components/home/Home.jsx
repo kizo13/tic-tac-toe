@@ -10,9 +10,12 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className="menu">
-        <Link to="/board">New game</Link>
-        <Link to="/load">Load game</Link>
+      <div className="home">
+        <h1><span className="bold">Tic</span> <span className="regular">Tac</span> Toe</h1>
+        <div className="menu">
+          <Link to="/board">New game</Link>
+          <Link to="/load">Load game</Link>
+        </div>
       </div>
     );
   }

@@ -1,0 +1,39 @@
+@import '../Variables.scss';
+
+.home {
+
+  h1 {
+    font-size: 4em;
+    margin: 0;
+    padding-top: 1em;
+    text-align: center;
+
+    .regular {
+      font-family: 'open_sansregular';
+    }
+
+    .bold {
+      font-family: 'open_sansbold';
+    }
+  }
+
+  .menu {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    
+    a {
+      border-top: 1px solid $ui-dark-grey;
+      display: block;
+      font-size: 2em;
+      margin-top: 0.5em;
+      text-align: center;
+  
+      &:first-child {
+        border: 0;
+        margin-top: 0;
+      }
+    }
+  }
+}

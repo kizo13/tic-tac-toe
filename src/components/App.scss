@@ -1,10 +1,25 @@
-@import 'Normalize';
-@import 'Functions';
-@import 'Fonts';
-@import 'Variables';
+@import './Normalize.scss';
+@import './Functions.scss';
+@import './Fonts.scss';
+@import './Variables.scss';
 
 body {
-  font-family: 'open_sansregular', Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  line-height: 18px;
+  color: $default-font-color;
+  font-family: $default-font, Arial, Helvetica, sans-serif;
+  font-size: $default-font-size;
+  line-height: $default-line-height;
+}
+
+a {
+  color: $ui-white;
+
+  &:hover {
+    color: $ui-light-grey;
+  }
+}
+
+#app {
+  background-color: $ui-black;
+  height: 100vh;
+  position: relative;
 }
