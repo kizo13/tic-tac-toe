@@ -70,6 +70,10 @@ input {
   &:focus {
     background-color: lighten($ui-dark-grey, 10%);
   }
+
+  &.invalid {
+    background-color: rgba($ui-red, 0.3);
+  }
 }
 
 button {

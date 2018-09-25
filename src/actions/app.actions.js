@@ -23,7 +23,8 @@ export const AppTypeKeys = {
   SET_WINNER: 'SET_WINNER',
   SHOW_MODAL: 'SHOW_MODAL',
   SHOW_ERROR: 'SHOW_ERROR',
-  SET_ERROR_MESSAGE: 'SET_ERROR_MESSAGE'
+  SET_ERROR_MESSAGE: 'SET_ERROR_MESSAGE',
+  SET_BOARD_VALIDITY: 'SET_BOARD_VALIDITY',
 }
 
 const actions = {
@@ -96,6 +97,14 @@ const actions = {
 
   saveBoard: (name, cells) => {
     return (dispatch) => {
+      const isNameValid = /^[^\s]{1,50}$/.test(name);
+      if (!isNameValid) {
+        dispatch({ type: AppTypeKeys.SET_BOARD_VALIDITY, payload: false });
+        return;
+      }
+      
+      dispatch({ type: AppTypeKeys.SET_BOARD_VALIDITY, payload: true });
+      
       let boardModel = {
         boardSize: 3,
         boardName: name
@@ -160,6 +169,13 @@ const actions = {
   setErrorMessage: (message) => {
     return (dispatch) => {
       dispatch({ type: AppTypeKeys.SET_ERROR_MESSAGE, payload: message });
+    };
+  },
+
+  setBoardValidity: (name) => {
+    return (dispatch) => {
+      const isNameValid = /^[^\s]{1,50}$/.test(name);
+      dispatch({ type: AppTypeKeys.SET_BOARD_VALIDITY, payload: isNameValid });
     };
   },
 

@@ -5,7 +5,7 @@ const initialFormState = {
     query: ''
   },
   board: {
-    name: ''
+    name: '',
   }
 };
 

@@ -8,6 +8,7 @@ const initialAppState = {
   },
   board: {
     isLoading: false,
+    isValid: true,
     id: null,             // string
     boardSize: null,      // integer [min 3, max 7]
     boardName: null,      // string [min 3, max 50]
@@ -57,6 +58,9 @@ const board = (state = initialAppState.board, action) => {
 
     case AppTypeKeys.CLEAR_BOARD:
       return Object.assign({}, state, initialAppState.board);
+
+    case AppTypeKeys.SET_BOARD_VALIDITY:
+      return Object.assign({}, state, { isValid: action.payload });
 
     default:
       return state;

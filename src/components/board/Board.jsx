@@ -17,18 +17,23 @@ class Board extends React.Component {
     return (
       <div className="board">
         <div className={classNames('modal', { 'open': this.props.app.data.showBoardModal })}>
-          <input type="text"
-            id="name"
-            name="name"
-            value={this.props.form.board.name}
-            placeholder="Add board name"
-            onChange={this.changeQuery.bind(this)}
-            onKeyPress={this.doSave.bind(this)}
-            autoCorrect="off"
-            autoCapitalize="off"
-            autoComplete="off" />
-          <button onClick={this.saveBoard.bind(this)}>Save</button>
-          <button onClick={this.showModal.bind(this)}>Cancel</button>
+          <h1><span className="bold">Save</span> board</h1>
+          <div className="action-panel">
+            {!this.props.app.board.isValid && <div className="validation">The <span className="bold">name of the board</span> cannot be longer than 50 characters, and cannot contain space character</div>}
+            <input type="text"
+              className={classNames({ 'invalid': !this.props.app.board.isValid })}
+              id="name"
+              name="name"
+              value={this.props.form.board.name}
+              placeholder="Add board name"
+              onChange={this.changeQuery.bind(this)}
+              onKeyPress={this.doSave.bind(this)}
+              autoCorrect="off"
+              autoCapitalize="off"
+              autoComplete="off" />
+            <button onClick={this.saveBoard.bind(this)}>Save</button>
+            <button onClick={this.showModal.bind(this)}>Cancel</button>
+          </div>
         </div>
 
         <div className={classNames('error', { 'open': this.props.app.data.showError })}>{this.props.app.data.errorMessage}</div>
@@ -88,6 +93,7 @@ class Board extends React.Component {
       name: evt.target.value,
     });
     this.props.emitChange(newState);
+    this.props.setBoardValidity(evt.target.value);
   }
 
   doSave(event) {
@@ -113,7 +119,8 @@ const mapDispatchToProps = (dispatch) => {
     saveBoard: (name, board) => dispatch(appActions.saveBoard(name, board)),
     updateBoard: (id, board) => dispatch(appActions.updateBoard(id)),
     showModal: (isVisible) => dispatch(appActions.showModal(isVisible)),
-    emitChange: (change) => dispatch(formActions.changeForm('board', change))
+    emitChange: (change) => dispatch(formActions.changeForm('board', change)),
+    setBoardValidity: (name) => dispatch(appActions.setBoardValidity(name))
   };
 };
 
