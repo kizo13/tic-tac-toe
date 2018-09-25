@@ -13,12 +13,11 @@ class LoadTableRow extends React.Component {
   render() {
     return (
       <tr>
-        <td>{this.props.id}</td>
-        <td>{this.props.name}</td>
-        <td>{this.props.size}</td>
-        <td>
-          <button onClick={this.loadBoard.bind(this, this.props.id)}>load</button>
-          <button onClick={this.deleteBoard.bind(this, this.props.id)}>delete</button>
+        <td className="name">{this.props.name}</td>
+        <td className="size">{this.props.size} x {this.props.size}</td>
+        <td className="actions">
+          <button onClick={this.loadBoard.bind(this, this.props.id)}><i className="fa fa-play" aria-hidden="true"></i></button>
+          <button onClick={this.deleteBoard.bind(this, this.props.id)}><i className="fa fa-trash" aria-hidden="true"></i></button>
         </td>
       </tr>
     );

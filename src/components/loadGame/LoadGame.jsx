@@ -18,30 +18,35 @@ class LoadGame extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        {this.props.app.boards.isLoading && <div className="loading">Fetching saved boards</div>}
-        <div className="load-game">Load games</div>
-        <Link to="/">Back to Main screen</Link>
-        <input type="text"
-          id="query"
-          name="query"
-          value={this.props.form.load.query}
-          placeholder="Search board by name"
-          onChange={this.changeQuery.bind(this)}
-          onKeyPress={this.doSearch.bind(this)}
-          autoCorrect="off"
-          autoCapitalize="off"
-          autoComplete="off" />
-        <button onClick={this.searchBoards.bind(this)}>Search</button>
+      <div className="load-game">
+        <h1>
+          <Link to="/" className="backlink">Back</Link>
+          <span className="bold">Load</span> games
+          {this.props.app.boards.isLoading && <div className="loading"><i className="fa-li fa fa-spinner fa-spin"></i></div>}
+        </h1>
+
+        <div className="filter">
+          <input type="text"
+            id="query"
+            name="query"
+            value={this.props.form.load.query}
+            placeholder="Search board by name"
+            onChange={this.changeQuery.bind(this)}
+            onKeyPress={this.doSearch.bind(this)}
+            autoCorrect="off"
+            autoCapitalize="off"
+            autoComplete="off" />
+          <button onClick={this.searchBoards.bind(this)}><i className="fa fa-filter" aria-hidden="true"></i> Search</button>
+        </div>
+
         {this.props.app.boards.data && (
           <React.Fragment>
             <table>
               <thead>
                 <tr>
-                  <th>id</th>
-                  <th>name</th>
-                  <th>size</th>
-                  <th>actions</th>
+                  <th className="name">Name</th>
+                  <th className="size">Size</th>
+                  <th className="actions"></th>
                 </tr>
               </thead>
               <tbody>
@@ -50,7 +55,7 @@ class LoadGame extends React.Component {
             </table>
           </React.Fragment>
         )}
-      </React.Fragment>
+      </div>
     );
   }
 

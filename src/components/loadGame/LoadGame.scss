@@ -1,0 +1,102 @@
+@import '../Variables.scss';
+
+.load-game {
+  margin: 0 1em;
+
+  h1 {
+    border-bottom: 1px solid $ui-dark-grey;
+    margin-bottom: 1em;
+
+    a.backlink {
+      position: fixed;
+      font-size: 0.381em;
+      padding-left: 1em;
+      top: 1.250em;
+      left: 1em;
+  
+      &::before {
+        content: "\f053";
+        position: absolute;
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        text-decoration: inherit;
+        left: 0;
+      }
+    }
+
+    .loading {
+      position: fixed;
+      font-size: 0.714em;
+      top: 0.400em;
+      right: 0;
+      color: $ui-light-grey;
+    }
+  }
+
+  .filter {
+    border-bottom: 1px solid $ui-dark-grey;
+    margin-bottom: 1em;
+    padding: 1em 0;
+
+    input {
+      width: calc(100% - 10em);
+    }
+
+    button {
+      width: 10em;
+    }
+  }
+
+  table {
+    width: 100%;
+    
+    th,
+    td {
+      height: 2.5em;
+
+      &.name {
+        text-align: left;
+      }
+
+      &.size {
+        text-align: center;
+        width: 4em;
+      }
+      
+      &.actions {
+        text-align: center;
+        width: 5.6em;
+      }
+    }
+
+    tr {
+      border-top: 1px solid $ui-dark-grey;
+
+      &:first-child {
+        border: 0;
+      }
+    }
+
+    th {
+      color: $ui-light-grey;
+    }
+
+    td {
+      border-left: 1px solid $ui-dark-grey;
+      
+      &:first-child {
+        border: 0;
+      }
+    }
+
+    button {
+      width: 2em;
+      margin-right: 0.5em;
+      
+      &:first-child {
+        margin-left: 0.5em;
+      }
+    }
+  }
+}

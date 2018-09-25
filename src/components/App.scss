@@ -10,6 +10,12 @@ body {
   line-height: $default-line-height;
 }
 
+h1 {
+  font-size: 3em;
+  margin: 0;
+  text-align: center;
+}
+
 a {
   color: $ui-white;
 
@@ -18,8 +24,46 @@ a {
   }
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
+input {
+  background-color: $ui-dark-grey;
+  border: 0;
+  height: 2em;
+  padding: 0 0.5em;
+  
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: lighten($ui-dark-grey, 10%);
+  }
+}
+
+button {
+  background-color: $ui-dark-blue;
+  border: 0;
+  height: 2em;
+  
+  &:hover {
+    background-color: lighten($ui-dark-blue, 10%);
+  }
+}
+
 #app {
   background-color: $ui-black;
   height: 100vh;
   position: relative;
+}
+
+.regular {
+  font-family: 'open_sansregular';
+}
+
+.bold {
+  font-family: 'open_sansbold';
 }
