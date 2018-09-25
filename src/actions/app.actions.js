@@ -2,8 +2,13 @@ import axios from 'axios';
 
 import { history } from '../store/store';
 import { convertToArray, convertToModel, selectAvailableCell, checkForWinner } from '../helpers/boardHelper';
+import { FormTypeKeys } from './form.actions';
 
 const API_URL = 'http://localhost:3000/api/boards';
+const ERROR_MESSAGES = {
+  DEFAULT: 'Oops! Something went wrong!',
+  NAME_ALREADY_EXISTS: 'Yikes! Name already exists!'
+};
 
 export const AppTypeKeys = {
   FETCH_BOARDS: 'FETCH_BOARDS',
@@ -16,7 +21,9 @@ export const AppTypeKeys = {
   SELECT_CELL: 'SELECT_CELL',
   CHANGE_PLAYERS_TURN: 'CHANGE_PLAYERS_TURN',
   SET_WINNER: 'SET_WINNER',
-  SHOW_MODAL: 'SHOW_MODAL'
+  SHOW_MODAL: 'SHOW_MODAL',
+  SHOW_ERROR: 'SHOW_ERROR',
+  SET_ERROR_MESSAGE: 'SET_ERROR_MESSAGE'
 }
 
 const actions = {
@@ -31,6 +38,8 @@ const actions = {
         .then(items => dispatch({ type: AppTypeKeys.FETCH_BOARDS, payload: items.data }))
         .catch((err) => {
           console.info(err);
+          dispatch(actions.setErrorMessage(ERROR_MESSAGES.DEFAULT));
+          dispatch(actions.showError());
           dispatch({ type: AppTypeKeys.FETCH_BOARDS, payload: null });
         })
         .then(() => dispatch({ type: AppTypeKeys.FETCH_BOARDS_ISLOADING, payload: false }));
@@ -38,7 +47,7 @@ const actions = {
   },
 
   getBoardById: (id) => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
       dispatch({ type: AppTypeKeys.FETCH_BOARD_ISLOADING, payload: true });
       axios.get(`${API_URL}/${id}`)
         .then((item) => {
@@ -47,12 +56,24 @@ const actions = {
             boardSize: item.data.boardSize,
             boardName: item.data.boardName,
             cells: convertToArray(item.data)
-          }
+          };
+
+          const change = Object.assign({}, getState().form.board, { name: item.data.boardName });
+          dispatch({
+            type: FormTypeKeys.CHANGE_FORM,
+            payload: {
+              form: 'board',
+              fields: Object.assign({}, change),
+            },
+          });
+
           dispatch({ type: AppTypeKeys.FETCH_BOARD, payload: data });
           history.push('/board');
         })
         .catch((err) => {
           console.info(err);
+          dispatch(actions.setErrorMessage(ERROR_MESSAGES.DEFAULT));
+          dispatch(actions.showError());
           dispatch({ type: AppTypeKeys.FETCH_BOARD, payload: null });
         })
         .then(() => dispatch({ type: AppTypeKeys.FETCH_BOARD_ISLOADING, payload: false }));
@@ -67,6 +88,8 @@ const actions = {
         })
         .catch((err) => {
           console.info(err);
+          dispatch(actions.setErrorMessage(ERROR_MESSAGES.DEFAULT));
+          dispatch(actions.showError());
         });
     };
   },
@@ -90,8 +113,31 @@ const actions = {
           dispatch({ type: AppTypeKeys.FETCH_BOARD, payload: data });
         })
         .catch((err) => {
-          // TODO: handle status codes
           console.info(err);
+          const message = err.response.status === 409 ? ERROR_MESSAGES.NAME_ALREADY_EXISTS : ERROR_MESSAGES.DEFAULT;
+          dispatch(actions.setErrorMessage(message));
+          dispatch(actions.showError());
+        });
+    };
+  },
+
+  updateBoard: (id) => {
+    return (dispatch, getState) => {
+      let boardModel = {
+        boardSize: 3,
+        boardName: getState().app.board.boardName
+      }
+      let dataModel = convertToModel(getState().app.board.cells);
+      Object.assign(boardModel, dataModel);
+      axios.put(`${API_URL}/${id}`, boardModel)
+        .then((response) => {
+          // OK
+        })
+        .catch((err) => {
+          console.info(err);
+          const message = err.response.status === 409 ? ERROR_MESSAGES.NAME_ALREADY_EXISTS : ERROR_MESSAGES.DEFAULT;
+          dispatch(actions.setErrorMessage(message));
+          dispatch(actions.showError());
         });
     };
   },
@@ -99,6 +145,21 @@ const actions = {
   showModal: (isVisible) => {
     return (dispatch) => {
       dispatch({ type: AppTypeKeys.SHOW_MODAL, payload: isVisible });
+    };
+  },
+
+  showError: () => {
+    return (dispatch) => {
+      dispatch({ type: AppTypeKeys.SHOW_ERROR, payload: true });
+      setTimeout(() => {
+        dispatch({ type: AppTypeKeys.SHOW_ERROR, payload: false });
+      }, 2000);
+    };
+  },
+
+  setErrorMessage: (message) => {
+    return (dispatch) => {
+      dispatch({ type: AppTypeKeys.SET_ERROR_MESSAGE, payload: message });
     };
   },
 

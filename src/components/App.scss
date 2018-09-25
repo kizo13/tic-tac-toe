@@ -4,6 +4,7 @@
 @import './Variables.scss';
 
 body {
+  background-color: $ui-black;
   color: $default-font-color;
   font-family: $default-font, Arial, Helvetica, sans-serif;
   font-size: $default-font-size;
@@ -13,7 +14,34 @@ body {
 h1 {
   font-size: 3em;
   margin: 0;
+  position: relative;
   text-align: center;
+
+  a.backlink {
+    position: fixed;
+    font-size: 0.381em;
+    padding-left: 1em;
+    top: 1.250em;
+    left: 1em;
+
+    &::before {
+      content: "\f053";
+      position: absolute;
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+      left: 0;
+    }
+  }
+
+  .loading {
+    position: fixed;
+    font-size: 0.714em;
+    top: 0.400em;
+    right: 0;
+    color: $ui-light-grey;
+  }
 }
 
 a {
@@ -52,12 +80,35 @@ button {
   &:hover {
     background-color: lighten($ui-dark-blue, 10%);
   }
+  
+  &:disabled,
+  &[disabled] {
+    background-color: darken($ui-dark-blue, 15%);
+    color: darken($ui-white, 30%);
+  }
 }
 
 #app {
-  background-color: $ui-black;
   height: 100vh;
+  margin: 0 1em;
   position: relative;
+}
+
+.error {
+  background-color: $ui-red;
+  padding: 0.5em;
+  position: absolute;
+  right: -0.5em;
+  text-align: center;
+  top: 0.5em;
+  transition: all 0.3s ease;
+  transform: translateY(-100vh);
+  width: 100px;
+  z-index: 10;
+
+  &.open {
+    transform: none;
+  }
 }
 
 .regular {

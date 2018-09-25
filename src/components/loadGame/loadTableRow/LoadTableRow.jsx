@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import appActions from '../../../actions/app.actions';
 
-import './LoadTableRow.scss';
-
 class LoadTableRow extends React.Component {
   constructor(props) {
     super(props);

@@ -14,6 +14,8 @@ const initialAppState = {
     cells: [null, null, null, null, null, null, null, null, null]
   },
   data: {
+    showError: false,
+    errorMessage: '',
     showBoardModal: false,
     isPlayersTurn: true,
     winner: {
@@ -72,6 +74,12 @@ const data = (state = initialAppState.data, action) => {
 
     case AppTypeKeys.SHOW_MODAL:
       return Object.assign({}, state, { showBoardModal: action.payload });
+    
+    case AppTypeKeys.SHOW_ERROR:
+      return Object.assign({}, state, { showError: action.payload });
+
+    case AppTypeKeys.SET_ERROR_MESSAGE:
+      return Object.assign({}, state, { errorMessage: action.payload });
 
     default:
       return state;

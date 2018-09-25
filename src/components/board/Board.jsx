@@ -16,7 +16,6 @@ class Board extends React.Component {
   render() {
     return (
       <div className="board">
-      {/* TODO: if board.id --> update instead of create */}
         <div className={classNames('modal', { 'open': this.props.app.data.showBoardModal })}>
           <input type="text"
             id="name"
@@ -31,24 +30,37 @@ class Board extends React.Component {
           <button onClick={this.saveBoard.bind(this)}>Save</button>
           <button onClick={this.showModal.bind(this)}>Cancel</button>
         </div>
-        <div>{`${this.props.app.data.isPlayersTurn ? "Player" : "Computer"}'s turn`}</div>
+
+        <div className={classNames('error', { 'open': this.props.app.data.showError })}>{this.props.app.data.errorMessage}</div>
+        
+        <h1>
+          <Link to="/" className="backlink">Back</Link>
+          {this.props.app.data.isPlayersTurn ? <React.Fragment>It's <span className="bold">your</span> move</React.Fragment> : <React.Fragment><span className="bold">Computer</span> moves</React.Fragment>}
+          {this.props.app.board.isLoading && <div className="loading"><i className="fa-li fa fa-spinner fa-spin"></i></div>}
+          {this.props.app.board.id && <span className="board-name"><i className="fa fa-table" aria-hidden="true"></i> {this.props.app.board.boardName}</span>}
+        </h1>
+
+        <div className="action-panel">
+          <button onClick={this.clearBoard.bind(this)}><i className="fa fa-star" aria-hidden="true"></i> New game</button>
+          <button onClick={this.gotoLoad.bind(this)}><i className="fa fa-download" aria-hidden="true"></i> Load game</button>
+          <button onClick={this.showModal.bind(this)} disabled={!this.isBoardValid()}>
+            <i className="fa fa-floppy-o" aria-hidden="true"></i> {this.props.app.board.id ? "Update" : "Save"} game
+          </button>
+        </div>
+        
         {this.props.app.data.winner.id !== null && (
           <div>{this.props.app.data.winner.id === 0 ? "Player win" : this.props.app.data.winner.id === 1 ? "Computer wins" : "It's a draw"}</div>
-          )}
-        {this.props.app.board.id && (
-          <div>{this.props.app.board.boardName}</div>
-          )}
+        )}
 
-        <Link to="/" className="button">Main screen</Link>
-        <button onClick={this.clearBoard.bind(this)}>New</button>
-        <Link to="/load" className="button">Load game</Link>
-        <button className="button" onClick={this.showModal.bind(this)} disabled={!this.isBoardValid()}>Save game</button>
-
-        <div className="board">
+        <div className="map">
           {this.props.app.board.cells.map((c, idx) => <Cell key={idx} id={idx} value={c} />)}
         </div>
       </div>
     );
+  }
+
+  gotoLoad() {
+    this.props.history.push('/load');
   }
 
   clearBoard() {
@@ -60,7 +72,11 @@ class Board extends React.Component {
   }
 
   showModal() {
-    this.props.showModal(!this.props.app.data.showBoardModal);
+    if (this.props.app.board.id) {
+      this.props.updateBoard(this.props.app.board.id);
+    } else {
+      this.props.showModal(!this.props.app.data.showBoardModal);
+    }
   }
 
   mergeWithCurrentState(change) {
@@ -95,6 +111,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     clearBoard: () => dispatch(appActions.clearBoard()),
     saveBoard: (name, board) => dispatch(appActions.saveBoard(name, board)),
+    updateBoard: (id, board) => dispatch(appActions.updateBoard(id)),
     showModal: (isVisible) => dispatch(appActions.showModal(isVisible)),
     emitChange: (change) => dispatch(formActions.changeForm('board', change))
   };

@@ -1,32 +1,49 @@
+@import '../../Variables.scss';
+
 .cell {
-  display: inline-block;
-  width: 33.333%;
-  padding-top: 33.333%;
-  border: 1px solid gray;
-  position: relative;
+  border-right: 1px solid $ui-dark-grey;
+  border-bottom: 1px solid $ui-dark-grey;
   cursor: pointer;
+  flex-grow: 1;
+  padding-top: 33.333%;
+  position: relative;
+  width: 33.333%;
+  
+  &:nth-child(3),
+  &:nth-child(6),
+  &:nth-child(9) {
+    border-right: 0;
+  }
+
+  &:nth-child(7),
+  &:nth-child(8),
+  &:nth-child(9) {
+    border-bottom: 0;
+  }
 
   &.cell-user::before,
   &.cell-computer::before {
-    position: absolute;
+    bottom: 0;
     font-family: FontAwesome;
+    font-size: 20vw;
     font-style: normal;
     font-weight: normal;
-    text-decoration: inherit;
-    font-size: 20vw;
-    top: 0;
-    right: 0;
-    bottom: 0;
     left: 0;
+    line-height: 25vw;
+    text-decoration: inherit;
+    position: absolute;
+    right: 0;
+    top: 0;
     text-align: center;
-    line-height: 31vw;
   }
 
   &.cell-user::before {
+    color: $ui-yellow;
     content: "\f00d";
   }
   
   &.cell-computer::before {
+    color: $ui-blue;
     content: "\f10c";
   }
 }
