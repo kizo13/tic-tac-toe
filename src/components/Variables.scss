@@ -1,8 +1,11 @@
-$default-font: "open_sansregular";
-$default-font-size: 14px;
-$default-font-color: #333333;
-$default-line-height: 1.42857143;
-
+// colors
 $ui-white: #FFFFFF;
 $ui-black: #000000;
 $ui-light-grey: #8e8e8e;
+$ui-dark-grey: #252525;
+
+// basic settings
+$default-font: "open_sanslight";
+$default-font-size: 14px;
+$default-font-color: $ui-white;
+$default-line-height: 1.42857143;
