@@ -54,7 +54,7 @@ export const checkForWinner = (board, isPlayersTurn) => {
   const currentTurn = isPlayersTurn ? 0 : 1;
   const winningCombo = winningCombos.find((combo) => {
     if(board[combo[0]] !== null && board[combo[1]] !== null && board[combo[2]] !== null && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]]) {
-      return isPlayersTurn;
+      return true;
     } else {
       return false;
     }
