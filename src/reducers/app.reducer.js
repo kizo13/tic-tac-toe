@@ -14,6 +14,7 @@ const initialAppState = {
     cells: [null, null, null, null, null, null, null, null, null]
   },
   data: {
+    showBoardModal: false,
     isPlayersTurn: true,
     winner: {
       id: null,
@@ -52,6 +53,9 @@ const board = (state = initialAppState.board, action) => {
       const newCells = state.cells.map ((c, idx) => action.payload.id === idx ? cellValue : c);
       return Object.assign({}, state, { cells: newCells });
 
+    case AppTypeKeys.CLEAR_BOARD:
+      return Object.assign({}, state, initialAppState.board);
+
     default:
       return state;
   }
@@ -65,6 +69,9 @@ const data = (state = initialAppState.data, action) => {
 
     case AppTypeKeys.SET_WINNER:
       return Object.assign({}, state, { winner: action.payload });
+
+    case AppTypeKeys.SHOW_MODAL:
+      return Object.assign({}, state, { showBoardModal: action.payload });
 
     default:
       return state;

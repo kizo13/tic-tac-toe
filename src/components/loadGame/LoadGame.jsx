@@ -25,7 +25,7 @@ class LoadGame extends React.Component {
         <input type="text"
           id="query"
           name="query"
-          value={this.props.form.query}
+          value={this.props.form.load.query}
           placeholder="Search board by name"
           onChange={this.changeQuery.bind(this)}
           onKeyPress={this.doSearch.bind(this)}
@@ -54,8 +54,15 @@ class LoadGame extends React.Component {
     );
   }
 
+  mergeWithCurrentState(change) {
+    return Object.assign({}, this.props.form.load, change);
+  }
+
   changeQuery(evt) {
-    this.props.emitChange(evt.target.value);
+    const newState = this.mergeWithCurrentState({
+      query: evt.target.value,
+    });
+    this.props.emitChange(newState);
   }
 
   doSearch(event) {
@@ -79,7 +86,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getBoards: (nameSegment) => dispatch(appActions.getBoards(nameSegment)),
-    emitChange: change => dispatch(formActions.changeForm(change))
+    emitChange: change => dispatch(formActions.changeForm('load', change))
   };
 };
 

@@ -4,11 +4,15 @@ export const FormTypeKeys = {
 }
 
 const actions = {
-  changeForm: (change) => {
+  changeForm: (form, change) => {
     return (dispatch) => {
+      // TODO validation
       dispatch({
         type: FormTypeKeys.CHANGE_FORM,
-        payload: change
+        payload: {
+          form,
+          fields: Object.assign({}, change),
+        },
       });
     };
   },

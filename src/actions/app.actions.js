@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { history } from '../store/store';
-import { convertToArray, selectAvailableCell, checkForWinner } from '../helpers/boardHelper';
+import { convertToArray, convertToModel, selectAvailableCell, checkForWinner } from '../helpers/boardHelper';
 
 const API_URL = 'http://localhost:3000/api/boards';
 
@@ -11,10 +11,12 @@ export const AppTypeKeys = {
   FETCH_BOARD: 'FETCH_BOARD',
   FETCH_BOARD_ISLOADING: 'FETCH_BOARD_ISLOADING',
   DELETE_BOARD: 'DELETE_BOARD',
+  CLEAR_BOARD: 'CLEAR_BOARD',
 
   SELECT_CELL: 'SELECT_CELL',
   CHANGE_PLAYERS_TURN: 'CHANGE_PLAYERS_TURN',
-  SET_WINNER: 'SET_WINNER'
+  SET_WINNER: 'SET_WINNER',
+  SHOW_MODAL: 'SHOW_MODAL'
 }
 
 const actions = {
@@ -69,20 +71,57 @@ const actions = {
     };
   },
 
+  saveBoard: (name, cells) => {
+    return (dispatch) => {
+      let boardModel = {
+        boardSize: 3,
+        boardName: name
+      }
+      let dataModel = convertToModel(cells);
+      Object.assign(boardModel, dataModel);
+      axios.post(API_URL, boardModel)
+        .then((response) => {
+          const data = {
+            id: response.data.id,
+            boardSize: response.data.boardSize,
+            boardName: response.data.boardName,
+            cells: convertToArray(response.data)
+          }
+          dispatch({ type: AppTypeKeys.FETCH_BOARD, payload: data });
+        })
+        .catch((err) => {
+          // TODO: handle status codes
+          console.info(err);
+        });
+    };
+  },
+
+  showModal: (isVisible) => {
+    return (dispatch) => {
+      dispatch({ type: AppTypeKeys.SHOW_MODAL, payload: isVisible });
+    };
+  },
+
+  clearBoard: () => {
+    return (dispatch) => {
+      dispatch({ type: AppTypeKeys.CLEAR_BOARD, payload: true });
+    };
+  },
+
   selectCell: (id, isPlayersTurn) => {
     return (dispatch, getState) => {
       dispatch({ type: AppTypeKeys.SELECT_CELL, payload: { id, isPlayersTurn } });
       dispatch({ type: AppTypeKeys.CHANGE_PLAYERS_TURN, payload: !isPlayersTurn });
       
-      const doHaveAWinner = checkForWinner(getState().app);
+      const doHaveAWinner = checkForWinner(getState().app.board.cells, isPlayersTurn);
       if (doHaveAWinner) {
         dispatch({ type: AppTypeKeys.SET_WINNER, payload: doHaveAWinner });
         return;
       }
-
+      
       const selectCell = selectAvailableCell(getState().app.board.cells);
       if (selectCell === null) {
-        // TODO: handle draw situation
+        dispatch({ type: AppTypeKeys.SET_WINNER, payload: { id: 2 } });
         return;
       }
 

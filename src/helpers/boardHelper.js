@@ -49,13 +49,12 @@ export const selectAvailableCell = (board) => {
     : null;
 }
 
-export const checkForWinner = (appState) => {
+export const checkForWinner = (board, isPlayersTurn) => {
   const winningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-  const currentTurn = appState.data.isPlayersTurn ? 0 : 1;
-  const board = appState.board.cells;
+  const currentTurn = isPlayersTurn ? 0 : 1;
   const winningCombo = winningCombos.find((combo) => {
     if(board[combo[0]] !== null && board[combo[1]] !== null && board[combo[2]] !== null && board[combo[0]] === board[combo[1]] && board[combo[1]] === board[combo[2]]) {
-      return currentTurn;
+      return isPlayersTurn;
     } else {
       return false;
     }
