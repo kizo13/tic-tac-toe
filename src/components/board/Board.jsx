@@ -16,24 +16,35 @@ class Board extends React.Component {
   render() {
     return (
       <div className="board">
-        <div className={classNames('modal', { 'open': this.props.app.data.showBoardModal })}>
-          <h1><span className="bold">Save</span> board</h1>
-          <div className="action-panel">
-            {!this.props.app.board.isValid && <div className="validation">The <span className="bold">name of the board</span> cannot be longer than 50 characters, and cannot contain space character</div>}
-            <input type="text"
-              className={classNames({ 'invalid': !this.props.app.board.isValid })}
-              id="name"
-              name="name"
-              value={this.props.form.board.name}
-              placeholder="Add board name"
-              onChange={this.changeQuery.bind(this)}
-              onKeyPress={this.doSave.bind(this)}
-              autoCorrect="off"
-              autoCapitalize="off"
-              autoComplete="off" />
-            <button onClick={this.saveBoard.bind(this)}>Save</button>
-            <button onClick={this.showModal.bind(this)}>Cancel</button>
-          </div>
+        <div className={classNames('modal', { 'open': this.props.app.data.showBoardModal ||  this.props.app.data.winner.id !== null})}>
+          {this.props.app.data.winner.id === null && (
+            <React.Fragment>
+              <h1><span className="bold">Save</span> board</h1>
+              <div className="action-panel">
+                {!this.props.app.board.isValid && <div className="validation">The <span className="bold">name of the board</span> cannot be longer than 50 characters, and cannot contain space character</div>}
+                <input type="text"
+                  className={classNames({ 'invalid': !this.props.app.board.isValid })}
+                  id="name"
+                  name="name"
+                  value={this.props.form.board.name}
+                  placeholder="Add board name"
+                  onChange={this.changeQuery.bind(this)}
+                  onKeyPress={this.doSave.bind(this)}
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  autoComplete="off" />
+                <button onClick={this.saveBoard.bind(this)}>Save</button>
+                <button onClick={this.showModal.bind(this)}>Cancel</button>
+              </div>
+            </React.Fragment>
+          )}
+
+          {this.props.app.data.winner.id !== null && (
+            <div className={classNames('winner', { 'user': this.props.app.data.winner.id === 0, 'computer': this.props.app.data.winner.id === 1, 'draw': this.props.app.data.winner.id === 2 })}>
+              {this.props.app.data.winner.id === 0 ? "Player win" : this.props.app.data.winner.id === 1 ? "Computer wins" : "It's a draw"}
+              <button onClick={this.clearBoard.bind(this)}>New game</button>
+            </div>
+          )}
         </div>
 
         <div className={classNames('error', { 'open': this.props.app.data.showError })}>{this.props.app.data.errorMessage}</div>
@@ -52,10 +63,6 @@ class Board extends React.Component {
             <i className="fa fa-floppy-o" aria-hidden="true"></i> {this.props.app.board.id ? "Update" : "Save"} game
           </button>
         </div>
-        
-        {this.props.app.data.winner.id !== null && (
-          <div>{this.props.app.data.winner.id === 0 ? "Player win" : this.props.app.data.winner.id === 1 ? "Computer wins" : "It's a draw"}</div>
-        )}
 
         <div className="map">
           {this.props.app.board.cells.map((c, idx) => <Cell key={idx} id={idx} value={c} />)}

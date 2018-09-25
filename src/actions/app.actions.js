@@ -17,7 +17,8 @@ export const AppTypeKeys = {
   FETCH_BOARD_ISLOADING: 'FETCH_BOARD_ISLOADING',
   DELETE_BOARD: 'DELETE_BOARD',
   CLEAR_BOARD: 'CLEAR_BOARD',
-
+  
+  CLEAR_DATA: 'CLEAR_DATA',
   SELECT_CELL: 'SELECT_CELL',
   CHANGE_PLAYERS_TURN: 'CHANGE_PLAYERS_TURN',
   SET_WINNER: 'SET_WINNER',
@@ -120,6 +121,7 @@ const actions = {
             cells: convertToArray(response.data)
           }
           dispatch({ type: AppTypeKeys.FETCH_BOARD, payload: data });
+          dispatch({ type: AppTypeKeys.SHOW_MODAL, payload: false });
         })
         .catch((err) => {
           console.info(err);
@@ -182,6 +184,7 @@ const actions = {
   clearBoard: () => {
     return (dispatch) => {
       dispatch({ type: AppTypeKeys.CLEAR_BOARD, payload: true });
+      dispatch({ type: AppTypeKeys.CLEAR_DATA, payload: true });
     };
   },
 

@@ -16,6 +16,38 @@
       transform: none;
     }
 
+    .winner {
+      font-family: raustila;
+      font-size: 5em;
+      left: 50%;
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      &.user {
+        color: $ui-yellow;
+      }
+
+      &.computer {
+        color: $ui-blue;
+      }
+
+      &.draw {
+        color: $ui-white;
+      }
+
+      button {
+        bottom: -60px;
+        color: $ui-white;
+        font-family: open_sanslight;
+        font-size: 0.200em;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+    }
+
     .validation {
       background-color: rgba($ui-red, 0.3);
       border: 1px solid $ui-red;

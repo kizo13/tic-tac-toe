@@ -85,6 +85,9 @@ const data = (state = initialAppState.data, action) => {
     case AppTypeKeys.SET_ERROR_MESSAGE:
       return Object.assign({}, state, { errorMessage: action.payload });
 
+    case AppTypeKeys.CLEAR_DATA:
+      return Object.assign({}, state, initialAppState.data);
+
     default:
       return state;
   }
